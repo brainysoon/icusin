@@ -175,29 +175,6 @@ CREATE TABLE cusin_rel
 CREATE UNIQUE INDEX pk_cusin_rel_id
   ON cusin_rel (id);
 
--- 表亲查看记录表
-DROP TABLE IF EXISTS cusin_view_log;
-CREATE TABLE cusin_view_log
-(
-  id                INT UNSIGNED PRIMARY KEY NOT NULL
-  COMMENT '记录标识' AUTO_INCREMENT,
-  ref_user_info_id  INT UNSIGNED
-  COMMENT '用户参照',
-  ref_cusin_info_id INT UNSIGNED             NOT NULL
-  COMMENT '表亲参照',
-  gmt_create        DATETIME                 NOT NULL
-  COMMENT '创建日期',
-  gmt_modified      DATETIME                 NOT NULL
-  COMMENT '最后一次修改时间(默认创建时间)',
-  mark_status       TINYINT UNSIGNED         NOT NULL
-  COMMENT '状态 (0.无效 1.有效)'
-)
-  ENGINE = innodb
-  DEFAULT CHARSET = utf8mb4
-  COMMENT ='表亲查看记录';
-CREATE UNIQUE INDEX pk_cusin_view_log_id
-  ON cusin_view_log (id);
-
 -- 回忆录分类表
 DROP TABLE IF EXISTS memoir_catg;
 CREATE TABLE memoir_catg
@@ -246,29 +223,6 @@ CREATE TABLE memoir_cmt
 CREATE UNIQUE INDEX pk_memoir_cmt_id
   ON memoir_cmt (id);
 
--- 回忆录查看记录表
-DROP TABLE IF EXISTS memoir_view_log;
-CREATE TABLE memoir_view_log
-(
-  id                 INT UNSIGNED PRIMARY KEY NOT NULL
-  COMMENT '记录标识' AUTO_INCREMENT,
-  ref_user_info_id   INT UNSIGNED
-  COMMENT '用户参照',
-  ref_memoir_info_id INT UNSIGNED             NOT NULL
-  COMMENT '回忆录参照',
-  gmt_create         DATETIME                 NOT NULL
-  COMMENT '创建日期',
-  gmt_modified       DATETIME                 NOT NULL
-  COMMENT '最后一次修改时间(默认创建时间)',
-  mark_status        TINYINT UNSIGNED         NOT NULL
-  COMMENT '状态 (0.无效 1.有效)'
-)
-  ENGINE = innodb
-  DEFAULT CHARSET = utf8mb4
-  COMMENT ='回忆录查看表记录';
-CREATE UNIQUE INDEX pk_memoir_view_log_id
-  ON memoir_view_log (id);
-
 -- 用户表亲关系表
 DROP TABLE IF EXISTS user_cusin_rel;
 CREATE TABLE user_cusin_rel
@@ -291,3 +245,30 @@ CREATE TABLE user_cusin_rel
   COMMENT ='用户表亲关系';
 CREATE UNIQUE INDEX pk_user_cusin_rel_id
   ON user_cusin_rel (id);
+
+-- 用户业务日志表
+DROP TABLE IF EXISTS user_log;
+CREATE TABLE user_log
+(
+  id               INT UNSIGNED PRIMARY KEY NOT NULL
+  COMMENT '记录标识' AUTO_INCREMENT,
+  ref_user_info_id INT UNSIGNED             NOT NULL
+  COMMENT '用户参照(0:匿名用户 >0:普通用户)',
+  ref_id           INT UNSIGNED             NOT NULL
+  COMMENT '日志对象参照',
+  log_content      VARCHAR(32)              NOT NULL
+  COMMENT '日志内容',
+  log_type         TINYINT UNSIGNED         NOT NULL
+  COMMENT '日志类型（0:普通日志 1:表亲日志 2:回忆录日志）',
+  gmt_create       DATETIME                 NOT NULL
+  COMMENT '创建日期',
+  gmt_modified     DATETIME                 NOT NULL
+  COMMENT '最后一次修改时间(默认创建时间)',
+  mark_status      TINYINT UNSIGNED         NOT NULL
+  COMMENT '状态 (0.无效 1.有效)'
+)
+  ENGINE = innodb
+  DEFAULT CHARSET = utf8mb4
+  COMMENT ='用户业务日志';
+CREATE UNIQUE INDEX pk_user_log_id
+  ON user_log (id);
