@@ -1,6 +1,5 @@
 package com.icusin.service.base.impl;
 
-import com.icusin.dao.mapper.dto.CusinRelDTOMapper;
 import com.icusin.service.base.CusinRelService;
 import com.icusin.service.bo.CusinRelBO;
 import org.springframework.beans.factory.annotation.Autowired;

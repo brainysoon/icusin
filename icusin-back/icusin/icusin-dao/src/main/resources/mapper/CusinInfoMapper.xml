@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icusin.dao.mapper.CusinInfoMapper">
+
+    <!-- 基础映射 -->
+    <resultMap id="BaseResultMap" type="com.icusin.dao.po.CusinInfoPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ref_user_info_id" jdbcType="INTEGER" property="refUserInfoId"/>
+        <result column="cusin_name" jdbcType="VARCHAR" property="cusinName"/>
+        <result column="cusin_sex" jdbcType="TINYINT" property="cusinSex"/>
+        <result column="cusin_birthday" jdbcType="DATE" property="cusinBirthday"/>
+        <result column="cusin_career" jdbcType="VARCHAR" property="cusinCareer"/>
+        <result column="cusin_photo" jdbcType="CHAR" property="cusinPhoto"/>
+        <result column="cusin_add" jdbcType="VARCHAR" property="cusinAdd"/>
+        <result column="ref_area_info_id" jdbcType="INTEGER" property="refAreaInfoId"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="cusin_perms" jdbcType="TINYINT" property="cusinPerms"/>
+        <result column="mark_status" jdbcType="TINYINT" property="markStatus"/>
+    </resultMap>
+
+    <!-- 基础选择集 -->
+    <sql id="Base_Column_List">
+        id, ref_user_info_id, cusin_name, cusin_sex, cusin_birthday, cusin_career, cusin_photo,
+            cusin_add, ref_area_info_id, gmt_create, gmt_modified, cusin_perms, mark_status
+    </sql>
+
+    <!-- 链接选择集 -->
+    <sql id="Related_Column_List">
+        ci.id, ci.ref_user_info_id, ci.cusin_name, ci.cusin_sex, ci.cusin_birthday, ci.cusin_career, ci.cusin_photo,
+        ci.cusin_add, ci.ref_area_info_id, ci.gmt_create, ci.gmt_modified, ci.cusin_perms, ci.mark_status
+    </sql>
+
+    <!-- 软删除 -->
+    <sql id="Soft_Delete">
+        AND mark_status!=0
+    </sql>
+
+    <!-- 默认排序 -->
+    <sql id="Default_Order_By">
+        ORDER BY gmt_create DESC, gmt_modified DESC
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cusin_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.icusin.dao.po.CusinInfoPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into cusin_info (ref_user_info_id, cusin_name, cusin_sex,
+        cusin_birthday, cusin_career, cusin_photo,
+        cusin_add, ref_area_info_id, gmt_create,
+        gmt_modified, cusin_perms, mark_status)
+        values (#{refUserInfoId,jdbcType=INTEGER}, #{cusinName,jdbcType=VARCHAR}, #{cusinSex,jdbcType=TINYINT},
+        #{cusinBirthday,jdbcType=DATE}, #{cusinCareer,jdbcType=VARCHAR}, #{cusinPhoto,jdbcType=CHAR},
+        #{cusinAdd,jdbcType=VARCHAR}, #{refAreaInfoId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP},
+        #{gmtModified,jdbcType=TIMESTAMP}, #{cusinPerms,jdbcType=TINYINT}, #{markStatus,jdbcType=TINYINT})
+    </insert>
+
+    <!-- 选择不为空的插入 -->
+    <insert id="insertSelective" parameterType="com.icusin.dao.po.CusinInfoPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into cusin_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refUserInfoId != null">
+                ref_user_info_id,
+            </if>
+            <if test="cusinName != null">
+                cusin_name,
+            </if>
+            <if test="cusinSex != null">
+                cusin_sex,
+            </if>
+            <if test="cusinBirthday != null">
+                cusin_birthday,
+            </if>
+            <if test="cusinCareer != null">
+                cusin_career,
+            </if>
+            <if test="cusinPhoto != null">
+                cusin_photo,
+            </if>
+            <if test="cusinAdd != null">
+                cusin_add,
+            </if>
+            <if test="refAreaInfoId != null">
+                ref_area_info_id,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="cusinPerms != null">
+                cusin_perms,
+            </if>
+            <if test="markStatus != null">
+                mark_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refUserInfoId != null">
+                #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="cusinName != null">
+                #{cusinName,jdbcType=VARCHAR},
+            </if>
+            <if test="cusinSex != null">
+                #{cusinSex,jdbcType=TINYINT},
+            </if>
+            <if test="cusinBirthday != null">
+                #{cusinBirthday,jdbcType=DATE},
+            </if>
+            <if test="cusinCareer != null">
+                #{cusinCareer,jdbcType=VARCHAR},
+            </if>
+            <if test="cusinPhoto != null">
+                #{cusinPhoto,jdbcType=CHAR},
+            </if>
+            <if test="cusinAdd != null">
+                #{cusinAdd,jdbcType=VARCHAR},
+            </if>
+            <if test="refAreaInfoId != null">
+                #{refAreaInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cusinPerms != null">
+                #{cusinPerms,jdbcType=TINYINT},
+            </if>
+            <if test="markStatus != null">
+                #{markStatus,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择不为空的更新 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.icusin.dao.po.CusinInfoPO">
+        update cusin_info
+        <set>
+            <if test="refUserInfoId != null">
+                ref_user_info_id = #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="cusinName != null">
+                cusin_name = #{cusinName,jdbcType=VARCHAR},
+            </if>
+            <if test="cusinSex != null">
+                cusin_sex = #{cusinSex,jdbcType=TINYINT},
+            </if>
+            <if test="cusinBirthday != null">
+                cusin_birthday = #{cusinBirthday,jdbcType=DATE},
+            </if>
+            <if test="cusinCareer != null">
+                cusin_career = #{cusinCareer,jdbcType=VARCHAR},
+            </if>
+            <if test="cusinPhoto != null">
+                cusin_photo = #{cusinPhoto,jdbcType=CHAR},
+            </if>
+            <if test="cusinAdd != null">
+                cusin_add = #{cusinAdd,jdbcType=VARCHAR},
+            </if>
+            <if test="refAreaInfoId != null">
+                ref_area_info_id = #{refAreaInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cusinPerms != null">
+                cusin_perms = #{cusinPerms,jdbcType=TINYINT},
+            </if>
+            <if test="markStatus != null">
+                mark_status = #{markStatus,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 普通更新 -->
+    <update id="updateByPrimaryKey" parameterType="com.icusin.dao.po.CusinInfoPO">
+        UPDATE cusin_info
+        SET ref_user_info_id = #{refUserInfoId,jdbcType=INTEGER},
+            cusin_name       = #{cusinName,jdbcType=VARCHAR},
+            cusin_sex        = #{cusinSex,jdbcType=TINYINT},
+            cusin_birthday   = #{cusinBirthday,jdbcType=DATE},
+            cusin_career     = #{cusinCareer,jdbcType=VARCHAR},
+            cusin_photo      = #{cusinPhoto,jdbcType=CHAR},
+            cusin_add        = #{cusinAdd,jdbcType=VARCHAR},
+            ref_area_info_id = #{refAreaInfoId,jdbcType=INTEGER},
+            gmt_create       = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified     = #{gmtModified,jdbcType=TIMESTAMP},
+            cusin_perms      = #{cusinPerms,jdbcType=TINYINT},
+            mark_status      = #{markStatus,jdbcType=TINYINT}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 列出该用户的所有表亲 -->
+    <select id="selectByUserInfoId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cusin_info
+        <where>
+            <if test="userInfoId!=null">
+                AND user_ref_id=#{userInfoId,jdbcType=INTEGER}
+            </if>
+
+            <include refid="Soft_Delete"/>
+        </where>
+        <include refid="Default_Order_By"/>
+    </select>
+</mapper>

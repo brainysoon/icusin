@@ -4,7 +4,6 @@ import com.icusin.common.enums.ErrorEnum;
 import com.icusin.common.exception.BusinessException;
 import com.icusin.dao.entity.UserInfoDO;
 import com.icusin.dao.entity.dto.UserInfoDTO;
-import com.icusin.dao.mapper.dto.UserInfoDTOMapper;
 import com.icusin.service.base.UserInfoService;
 import com.icusin.service.bo.UserInfoBO;
 import com.icusin.service.constant.UserInfoContant;

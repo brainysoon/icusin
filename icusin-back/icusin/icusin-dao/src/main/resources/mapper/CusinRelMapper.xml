@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icusin.dao.mapper.CusinRelMapper">
+
+    <!-- 基础映射 -->
+    <resultMap id="BaseResultMap" type="com.icusin.dao.po.CusinRelPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ref_user_info_id" jdbcType="INTEGER" property="refUserInfoId"/>
+        <result column="rel_name" jdbcType="VARCHAR" property="relName"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="mark_status" jdbcType="TINYINT" property="markStatus"/>
+    </resultMap>
+
+    <!-- 基础选择集 -->
+    <sql id="Base_Column_List">
+        id, ref_user_info_id, rel_name, gmt_create, gmt_modified, mark_status
+    </sql>
+
+    <!-- 默认排序 -->
+    <sql id="Default_Order_By">
+        ORDER BY gmt_modified DESC, gmt_create DESC
+    </sql>
+
+    <!-- 假删除 -->
+    <sql id="Soft_Delete">
+        AND mark_status!=0
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cusin_rel
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.icusin.dao.po.CusinRelPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into cusin_rel (ref_user_info_id, rel_name, gmt_create,
+        gmt_modified, mark_status)
+        values (#{refUserInfoId,jdbcType=INTEGER}, #{relName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP},
+        #{gmtModified,jdbcType=TIMESTAMP}, #{markStatus,jdbcType=TINYINT})
+    </insert>
+
+    <!-- 选择不为空的插入 -->
+    <insert id="insertSelective" parameterType="com.icusin.dao.po.CusinRelPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into cusin_rel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refUserInfoId != null">
+                ref_user_info_id,
+            </if>
+            <if test="relName != null">
+                rel_name,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="markStatus != null">
+                mark_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refUserInfoId != null">
+                #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="relName != null">
+                #{relName,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                #{markStatus,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择不为空的更新 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.icusin.dao.po.CusinRelPO">
+        update cusin_rel
+        <set>
+            <if test="refUserInfoId != null">
+                ref_user_info_id = #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="relName != null">
+                rel_name = #{relName,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                mark_status = #{markStatus,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 普通更新 -->
+    <update id="updateByPrimaryKey" parameterType="com.icusin.dao.po.CusinRelPO">
+        UPDATE cusin_rel
+        SET ref_user_info_id = #{refUserInfoId,jdbcType=INTEGER},
+            rel_name         = #{relName,jdbcType=VARCHAR},
+            gmt_create       = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified     = #{gmtModified,jdbcType=TIMESTAMP},
+            mark_status      = #{markStatus,jdbcType=TINYINT}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 列出该用户的所有表亲关系包括自定义的 -->
+    <select id="selectByUserInfoId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cusin_rel
+        <where>
+
+            <if test="userInfoId!=null">
+                AND (ref_user_info_id=#{userInfoId,jdbcType=INTEGER} OR ref_user_info_id=0)
+            </if>
+
+            <include refid="Soft_Delete"/>
+        </where>
+        <include refid="Default_Order_By"/>
+    </select>
+</mapper>

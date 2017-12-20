@@ -2,8 +2,6 @@ package com.icusin.service.base.impl;
 
 import com.icusin.dao.entity.MemoirContentDO;
 import com.icusin.dao.entity.MemoirInfoDO;
-import com.icusin.dao.mapper.dto.MemoirContentDTOMapper;
-import com.icusin.dao.mapper.dto.MemoirInfoDTOMapper;
 import com.icusin.service.base.MemoirInfoService;
 import com.icusin.service.bo.MemoirInfoBO;
 import com.icusin.service.constant.MemoirContentConstant;

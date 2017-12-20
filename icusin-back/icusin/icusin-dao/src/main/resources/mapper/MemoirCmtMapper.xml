@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icusin.dao.mapper.MemoirCmtMapper">
+
+    <!-- 基础映射 -->
+    <resultMap id="BaseResultMap" type="com.icusin.dao.po.MemoirCmtPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="cmt_content" jdbcType="VARCHAR" property="cmtContent"/>
+        <result column="ref_user_info_id" jdbcType="INTEGER" property="refUserInfoId"/>
+        <result column="ref_memoir_info_id" jdbcType="INTEGER" property="refMemoirInfoId"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="mark_status" jdbcType="TINYINT" property="markStatus"/>
+    </resultMap>
+
+    <!-- 基础选择集 -->
+    <sql id="Base_Column_List">
+        id, cmt_content, ref_user_info_id, ref_memoir_info_id, gmt_create, gmt_modified,
+            mark_status
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from memoir_cmt
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.icusin.dao.po.MemoirCmtPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into memoir_cmt (cmt_content, ref_user_info_id, ref_memoir_info_id,
+        gmt_create, gmt_modified, mark_status
+        )
+        values (#{cmtContent,jdbcType=VARCHAR}, #{refUserInfoId,jdbcType=INTEGER}, #{refMemoirInfoId,jdbcType=INTEGER},
+        #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{markStatus,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!-- 选择不为空的插入 -->
+    <insert id="insertSelective" parameterType="com.icusin.dao.po.MemoirCmtPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into memoir_cmt
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cmtContent != null">
+                cmt_content,
+            </if>
+            <if test="refUserInfoId != null">
+                ref_user_info_id,
+            </if>
+            <if test="refMemoirInfoId != null">
+                ref_memoir_info_id,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="markStatus != null">
+                mark_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cmtContent != null">
+                #{cmtContent,jdbcType=VARCHAR},
+            </if>
+            <if test="refUserInfoId != null">
+                #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="refMemoirInfoId != null">
+                #{refMemoirInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                #{markStatus,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择不为空的更新 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.icusin.dao.po.MemoirCmtPO">
+        update memoir_cmt
+        <set>
+            <if test="cmtContent != null">
+                cmt_content = #{cmtContent,jdbcType=VARCHAR},
+            </if>
+            <if test="refUserInfoId != null">
+                ref_user_info_id = #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="refMemoirInfoId != null">
+                ref_memoir_info_id = #{refMemoirInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                mark_status = #{markStatus,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 普通更新 -->
+    <update id="updateByPrimaryKey" parameterType="com.icusin.dao.po.MemoirCmtPO">
+        UPDATE memoir_cmt
+        SET cmt_content        = #{cmtContent,jdbcType=VARCHAR},
+            ref_user_info_id   = #{refUserInfoId,jdbcType=INTEGER},
+            ref_memoir_info_id = #{refMemoirInfoId,jdbcType=INTEGER},
+            gmt_create         = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified       = #{gmtModified,jdbcType=TIMESTAMP},
+            mark_status        = #{markStatus,jdbcType=TINYINT}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

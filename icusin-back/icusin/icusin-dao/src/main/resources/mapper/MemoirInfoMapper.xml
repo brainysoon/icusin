@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icusin.dao.mapper.MemoirInfoMapper">
+
+    <!-- 基础映射 -->
+    <resultMap id="BaseResultMap" type="com.icusin.dao.po.MemoirInfoPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ref_cusin_info_id" jdbcType="INTEGER" property="refCusinInfoId"/>
+        <result column="ref_user_info_id" jdbcType="INTEGER" property="refUserInfoId"/>
+        <result column="memoir_title" jdbcType="VARCHAR" property="memoirTitle"/>
+        <result column="memoir_digest" jdbcType="VARCHAR" property="memoirDigest"/>
+        <result column="ref_memoir_catg_id" jdbcType="INTEGER" property="refMemoirCatgId"/>
+        <result column="ref_memoir_content_id" jdbcType="INTEGER" property="refMemoirContentId"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="mark_status" jdbcType="TINYINT" property="markStatus"/>
+    </resultMap>
+
+    <!-- 基础查询集 -->
+    <sql id="Base_Column_List">
+        id, ref_cusin_info_id, ref_user_info_id, memoir_title, memoir_digest, ref_memoir_catg_id, ref_memoir_content_id,
+            gmt_create, gmt_modified, mark_status
+    </sql>
+
+    <!-- 链接查询集 -->
+    <sql id="Related_Column_List">
+        cmi.id, cmi.ref_cusin_info_id, cmi.ref_user_info_id, cmi.memoir_title, cmi.memoir_digest,
+        cmi.ref_memoir_catg_id, cmi.ref_memoir_content_id, cmi.gmt_create, cmi.gmt_modified, mark_status
+    </sql>
+
+    <!-- 默认排序 -->
+    <sql id="Default_Order_By">
+        ORDER BY gmt_create DESC, gmt_modified DESC
+    </sql>
+
+    <!-- 软删除 -->
+    <sql id="Soft_Delete">
+        AND mark_status!=0
+    </sql>
+
+    <!-- 限制一条数据 -->
+    <sql id="Limit_One">
+        limit 1
+    </sql>
+
+    <!--根据id查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM memoir_info
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.icusin.dao.po.MemoirInfoPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into memoir_info (ref_cusin_info_id,ref_user_info_id, memoir_title, memoir_digest,
+        ref_memoir_catg_id, ref_memoir_content_id, gmt_create,
+        gmt_modified, mark_status)
+        values (#{refCusinInfoId,jdbcType=INTEGER},#{refUserInfoId,jdbcType=INTEGER}, #{memoirTitle,jdbcType=VARCHAR},
+        #{memoirDigest,jdbcType=VARCHAR},
+        #{refMemoirCatgId,jdbcType=INTEGER}, #{refMemoirContentId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP},
+        #{gmtModified,jdbcType=TIMESTAMP}, #{markStatus,jdbcType=TINYINT})
+    </insert>
+
+    <!-- 选择不为空插入 -->
+    <insert id="insertSelective" parameterType="com.icusin.dao.po.MemoirInfoPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into memoir_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refCusinInfoId != null">
+                ref_cusin_info_id,
+            </if>
+            <if test="refUserInfoId != null">
+                ref_user_info_id,
+            </if>
+            <if test="memoirTitle != null">
+                memoir_title,
+            </if>
+            <if test="memoirDigest != null">
+                memoir_digest,
+            </if>
+            <if test="refMemoirCatgId != null">
+                ref_memoir_catg_id,
+            </if>
+            <if test="refMemoirContentId != null">
+                ref_memoir_content_id,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="markStatus != null">
+                mark_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refCusinInfoId != null">
+                #{refCusinInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="refUserInfoId != null">
+                #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="memoirTitle != null">
+                #{memoirTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="memoirDigest != null">
+                #{memoirDigest,jdbcType=VARCHAR},
+            </if>
+            <if test="refMemoirCatgId != null">
+                #{refMemoirCatgId,jdbcType=INTEGER},
+            </if>
+            <if test="refMemoirContentId != null">
+                #{refMemoirContentId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                #{markStatus,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择不为空更新 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.icusin.dao.po.MemoirInfoPO">
+        update memoir_info
+        <set>
+            <if test="refCusinInfoId != null">
+                ref_cusin_info_id = #{refCusinInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="refUserInfoId != null">
+                ref_user_info_id = #{refUserInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="memoirTitle != null">
+                memoir_title = #{memoirTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="memoirDigest != null">
+                memoir_digest = #{memoirDigest,jdbcType=VARCHAR},
+            </if>
+            <if test="refMemoirCatgId != null">
+                ref_memoir_catg_id = #{refMemoirCatgId,jdbcType=INTEGER},
+            </if>
+            <if test="refMemoirContentId != null">
+                ref_memoir_content_id = #{refMemoirContentId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                mark_status = #{markStatus,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 普通更新 -->
+    <update id="updateByPrimaryKey" parameterType="com.icusin.dao.po.MemoirInfoPO">
+        UPDATE memoir_info
+        SET ref_cusin_info_id     = #{refCusinInfoId,jdbcType=INTEGER},
+            ref_user_info_id      = #{refUserInfoId,jdbcType=INTEGER},
+            memoir_title          = #{memoirTitle,jdbcType=VARCHAR},
+            memoir_digest         = #{memoirDigest,jdbcType=VARCHAR},
+            ref_memoir_catg_id    = #{refMemoirCatgId,jdbcType=INTEGER},
+            ref_memoir_content_id = #{refMemoirContentId,jdbcType=INTEGER},
+            gmt_create            = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified          = #{gmtModified,jdbcType=TIMESTAMP},
+            mark_status           = #{markStatus,jdbcType=TINYINT}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 更具用户id查询回忆录列表-->
+    <select id="selectByUserInfoId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM memoir_info
+        <where>
+            <if test="userInfoId!=null">
+                AND ref_user_info_id=#{userInfoId,jdbcType=INTEGER}
+            </if>
+
+            <include refid="Soft_Delete"/>
+        </where>
+        <include refid="Default_Order_By"/>
+    </select>
+</mapper>

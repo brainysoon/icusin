@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icusin.dao.mapper.MemoirContentMapper">
+
+    <!-- 基础映射 -->
+    <resultMap id="BaseResultMap" type="com.icusin.dao.po.MemoirContentPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="mark_status" jdbcType="TINYINT" property="markStatus"/>
+    </resultMap>
+
+    <!-- 附带BLOB 映射 -->
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.icusin.dao.po.MemoirContentPO">
+        <result column="memoir_content" jdbcType="LONGVARCHAR" property="memoirContent"/>
+    </resultMap>
+
+    <!-- 基础选择集 -->
+    <sql id="Base_Column_List">
+        id, gmt_create, gmt_modified, content_status
+    </sql>
+
+    <!-- 附带BLOB选择集 -->
+    <sql id="Blob_Column_List">
+        memoir_content
+    </sql>
+
+    <!-- 根据id查询-->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from memoir_content
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 普通插入 -->
+    <insert id="insert" parameterType="com.icusin.dao.po.MemoirContentPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into memoir_content (gmt_create, gmt_modified, mark_status,
+        memoir_content)
+        values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{markStatus,jdbcType=TINYINT},
+        #{memoirContent,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <!-- 选择不为空的插入 -->
+    <insert id="insertSelective" parameterType="com.icusin.dao.po.MemoirContentPO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into memoir_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="markStatus != null">
+                mark_status,
+            </if>
+            <if test="memoirContent != null">
+                memoir_content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                #{markStatus,jdbcType=TINYINT},
+            </if>
+            <if test="memoirContent != null">
+                #{memoirContent,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 选择不为空的更新 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.icusin.dao.po.MemoirContentPO">
+        update memoir_content
+        <set>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="markStatus != null">
+                mark_status = #{markStatus,jdbcType=TINYINT},
+            </if>
+            <if test="memoirContent != null">
+                memoir_content = #{memoirContent,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 普通更新附带BLOB -->
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.icusin.dao.po.MemoirContentPO">
+        UPDATE memoir_content
+        SET gmt_create     = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified   = #{gmtModified,jdbcType=TIMESTAMP},
+            mark_status    = #{markStatus,jdbcType=TINYINT},
+            memoir_content = #{memoirContent,jdbcType=LONGVARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 普通更新不附带BLOB -->
+    <update id="updateByPrimaryKey" parameterType="com.icusin.dao.po.MemoirContentPO">
+        UPDATE memoir_content
+        SET gmt_create   = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            mark_status  = #{markStatus,jdbcType=TINYINT}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

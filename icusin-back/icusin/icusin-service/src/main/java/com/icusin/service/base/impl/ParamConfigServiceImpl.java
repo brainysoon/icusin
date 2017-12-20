@@ -4,7 +4,6 @@ import com.icusin.common.constant.ConfigConsts;
 import com.icusin.common.domain.Result;
 import com.icusin.common.enums.ErrorEnum;
 import com.icusin.common.util.StringUtils;
-import com.icusin.dao.mapper.ParamConfigMapper;
 import com.icusin.dao.entity.config.ParamConfig;
 import com.icusin.service.base.ParamConfigService;
 import lombok.extern.slf4j.Slf4j;

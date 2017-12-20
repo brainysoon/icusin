@@ -1,6 +1,5 @@
 package com.icusin.service.base.impl;
 
-import com.icusin.dao.mapper.dto.MemoirContentDTOMapper;
 import com.icusin.service.base.MemoirContentService;
 import com.icusin.service.bo.MemoirContentBO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,6 @@ package com.icusin.service.base.impl;
 
 import com.icusin.dao.entity.CusinInfoDO;
 import com.icusin.dao.entity.dto.CusinInfoDTO;
-import com.icusin.dao.mapper.dto.CusinInfoDTOMapper;
 import com.icusin.service.base.CusinInfoService;
 import com.icusin.service.bo.CusinInfoBO;
 import com.icusin.service.constant.CusinInfoConstant;
