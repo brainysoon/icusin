@@ -127,7 +127,7 @@
             <if test="gmtCreate != null">
                 #{gmtCreate,jdbcType=TIMESTAMP},
             </if>
-            <if test="userStatus != null">
+            <if test="markStatus != null">
                 #{markStatus,jdbcType=TINYINT},
             </if>
         </trim>
@@ -192,7 +192,7 @@
     </update>
 
     <!-- 用户标识符查找用户信息 -->
-    <select id="selectByIdentifier" resultMap="BaseResultMap">
+    <select id="selectByIdentifier" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM user_info
@@ -211,7 +211,7 @@
     </select>
 
     <!-- 用户名查询用户信息 -->
-    <select id="selectByUserAccount" resultMap="BaseResultMap">
+    <select id="selectByUserAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM user_info
@@ -226,4 +226,17 @@
         </where>
         <include refid="Limit_One"/>
     </select>
+
+    <!-- 假删除用户 -->
+    <update id="deleteByPrimaryKey">
+        UPDATE user_info
+        SET mark_status = 0
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 真删除 -->
+    <delete id="deleteByPrimaryKeyDangerously">
+        DELETE FROM user_info
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
 </mapper>

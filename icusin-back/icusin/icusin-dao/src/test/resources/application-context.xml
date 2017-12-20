@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.icusin"/>
+    <context:component-scan base-package="com.icusin.dao"/>
 
     <!-- 定义属性占位符${}里的变量来源文件 -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

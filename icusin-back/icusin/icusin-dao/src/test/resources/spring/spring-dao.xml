@@ -28,21 +28,21 @@
     <!-- 2.配置SqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 注入数据库连接池 -->
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
         <!-- 配置MyBatis全局配置文件：mybatis-config.xml -->
-        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!-- 扫描entity包 使用别名, 多个路径使用分号进行分隔 -->
-        <property name="typeAliasesPackage" value="com.icusin.dao.model" />
+        <property name="typeAliasesPackage" value="com.icusin.dao.po"/>
         <!-- 扫描sql配置文件：mapper需要的xml文件 -->
-        <property name="mapperLocations" value="classpath:mapper/ParamConfigMapper.xml" />
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
 
     <!-- 3.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory, 注意这里用value而不是ref -->
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出扫描Dao接口包 -->
-        <property name="basePackage" value="com.icusin.dao.mapper" />
+        <property name="basePackage" value="com.icusin.dao.mapper"/>
         <!-- 通过注解扫描Dao接口包, 可参考saint项目, 加上可以方便IDE识别Spring的Bean -->
         <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
     </bean>

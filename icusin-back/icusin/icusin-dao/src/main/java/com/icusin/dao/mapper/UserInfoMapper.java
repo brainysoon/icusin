@@ -1,6 +1,7 @@
 package com.icusin.dao.mapper;
 
 import com.icusin.dao.po.UserInfoPO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -49,7 +50,7 @@ public interface UserInfoMapper {
      * @param identifier 用户标识符，可能是(用户名,手机号,邮箱)
      * @return 用户信息
      */
-    UserInfoPO selectByIdentifier(String identifier);
+    UserInfoPO selectByIdentifier(@Param("identifier") String identifier);
 
     /**
      * 通过用户名查找用户
@@ -57,5 +58,22 @@ public interface UserInfoMapper {
      * @param userAccount 用户账户
      * @return 用户信息
      */
-    UserInfoPO selectByUserAccount(String userAccount);
+    UserInfoPO selectByUserAccount(@Param("userAccount") String userAccount);
+
+    /**
+     * 软删除（标记0）
+     *
+     * @param id 记录标识
+     * @return 删除结果
+     */
+    int deleteByPrimaryKey(Integer id);
+
+    /**
+     * 真删除（不推荐）
+     *
+     * @param id 记录标识
+     * @return 删除结果
+     */
+    @SuppressWarnings("这个方法真的会删除数据哦，谨慎对待！！！")
+    int deleteByPrimaryKeyDangerously(Integer id);
 }
