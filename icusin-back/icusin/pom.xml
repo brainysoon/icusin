@@ -18,7 +18,6 @@
         <module>icusin-service</module>
         <module>icusin-web</module>
         <module>icusin-common</module>
-        <module>icusin-domain</module>
         <module>icusin-api</module>
     </modules>
 
@@ -159,11 +158,6 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>icusin-common</artifactId>
                 <version>${icusin-common.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>icusin-domain</artifactId>
-                <version>0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>

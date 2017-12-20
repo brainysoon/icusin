@@ -51,10 +51,6 @@
             <version>1.1.1</version>
         </dependency>
         <dependency>
-            <groupId>com.icusin</groupId>
-            <artifactId>icusin-domain</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.mybatis.generator</groupId>
             <artifactId>mybatis-generator-core</artifactId>
         </dependency>
