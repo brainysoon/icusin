@@ -1,0 +1,161 @@
+/* Write your styles */
+
+/*　HEADER CUSTOM CSS START*/
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 200%;
+  color: #333;
+  margin-top: 30px;
+}
+
+.header p {
+  font-size: 14px;
+}
+
+/*END OF HEADER*/
+
+/*START OF IMG CROPPER*/
+.up-frame-bj .up-frame-radius {
+  padding-bottom: 20px;
+  border-radius: 5px;
+}
+
+.up-frame-parent .up-frame-header {
+  height: 50px;
+  padding: 0px;
+  line-height: 50px;
+  border-bottom: solid 1px #e5e5e5;
+}
+
+.up-frame-parent .up-frame-header label {
+  font-size: 16px;
+  float: left;
+  margin-left: 14px;
+  color: #808080;
+}
+
+.up-frame-parent .up-frame-body {
+  padding: 20px;
+}
+
+.up-frame-parent .up-pre-before {
+  width: 327px;
+  height: 327px;
+  padding: 0px;
+  float: left;
+  background: #fcfcfc;
+  border: 1px solid #e3e3e3;
+}
+
+.up-frame-parent .up-pre-before img {
+  width: 100%;
+}
+
+.up-frame-parent .up-frame-body .up-pre-after {
+  background: #fcfcfc;
+  overflow: hidden;
+  width: 186px;
+  height: 186px;
+  border: 1px solid #e3e3e3;
+  float: left;
+  margin-left: 25px;
+}
+
+.up-frame-parent .up-control-btns {
+  width: 150px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #dddddd;
+  text-align: center;
+  line-height: 30px;
+  margin-top: 30px;
+}
+
+.up-frame-parent .up-control-btns span {
+  width: 30%;
+}
+
+@media screen and (max-width: 1024px) {
+  .up-frame-parent .up-pre-before {
+    width: 100%;
+  }
+
+  .up-frame-parent .up-frame-body .up-pre-after {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+}
+
+/*END OF IMG CROPPER*/
+
+/*START OF MEMOIR　DETAIL*/
+@media only screen and (min-width: 641px) {
+  .am-offcanvas {
+    display: block;
+    position: static;
+    background: none;
+  }
+
+  .am-offcanvas-bar {
+    position: static;
+    width: auto;
+    background: none;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  .am-offcanvas-bar:after {
+    content: none;
+  }
+
+}
+
+@media only screen and (max-width: 640px) {
+  .am-offcanvas-bar .am-nav>li>a {
+    color:#ccc;
+    border-radius: 0;
+    border-top: 1px solid rgba(0,0,0,.3);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05)
+  }
+
+  .am-offcanvas-bar .am-nav>li>a:hover {
+    background: #404040;
+    color: #fff
+  }
+
+  .am-offcanvas-bar .am-nav>li.am-nav-header {
+    color: #777;
+    background: #404040;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    text-shadow: 0 1px 0 rgba(0,0,0,.5);
+    border-top: 1px solid rgba(0,0,0,.3);
+    font-weight: 400;
+    font-size: 75%
+  }
+
+  .am-offcanvas-bar .am-nav>li.am-active>a {
+    background: #1a1a1a;
+    color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.3)
+  }
+
+  .am-offcanvas-bar .am-nav>li+li {
+    margin-top: 0;
+  }
+}
+
+.memoir-button {
+  position: fixed;
+  top: 0;
+  right: 0;
+  border-radius: 0;
+}
+.memoir-sidebar {
+  padding-right: 0;
+  border-right: 1px solid #eeeeee;
+}
+/*END OF MEMOIR DETAIL*/

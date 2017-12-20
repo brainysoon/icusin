@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icusin.dao.mapper.dto.MemoirInfoDTOMapper">
+    <resultMap id="BaseResultMap" type="com.icusin.dao.entity.dto.MemoirInfoDTO"
+               extends="com.icusin.dao.mapper.MemoirInfoDOMapper.BaseResultMap">
+        <result column="mc.memoir_content" property="memoirContent"/>
+        <result column="ci.cusin_name" property="cusinName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <include refid="com.icusin.dao.mapper.MemoirInfoDOMapper.Base_Column_List"/>
+    </sql>
+
+    <!-- 后面肯定会链接查询,先准备好-->
+    <sql id="Related_Column_List">
+    mi.id, mi.cusin_ref_id, mi.memoir_title, mi.memoir_digest, mi.catg_ref_id, mi.content_ref_id, mi.gmt_create,
+    mi.gmt_modified, mi.status
+    </sql>
+
+    <!-- 回忆录内容 -->
+    <sql id="Related_Content_Column_List">
+      mc.status,mc.memoir_content
+    </sql>
+
+    <!-- 表亲相关信息-->
+    <sql id="Related_Cusin_Column_List">
+    ci.user_ref_id, ci.cusin_name,ci.rel_ref_id
+    </sql>
+
+    <!-- 默认排序 -->
+    <sql id="Default_Related_Order_By">
+        ORDER BY mi.gmt_create DESC , mi.gmt_modified DESC
+    </sql>
+
+    <!-- 列出该用户添加的所有自传 -->
+    <select id="listMemoirInfoByUserInfoId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Related_Column_List"/>
+        FROM memoir_info AS mi
+        LEFT JOIN cusin_info AS ci ON ci.id=mi.cusin_ref_id
+        LEFT JOIN user_info AS ui ON ci.user_ref_id=ui.id
+        <where>
+            ui.status=1
+            AND ci.status>0
+            AND mi.status=1
+            <if test="userInfoId!=null">
+                AND ui.id=#{userInfoId,jdbcType=INTEGER}
+            </if>
+        </where>
+        <include refid="Default_Related_Order_By"/>
+    </select>
+
+    <!-- 拿取回忆录详细信息 -->
+    <select id="getMemoirDetailById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Related_Column_List"/>,
+        <include refid="Related_Content_Column_List"/>,
+        <include refid="Related_Cusin_Column_List"/>
+        FROM memoir_info AS mi
+        LEFT JOIN memoir_content AS mc ON mi.content_ref_id=mc.id
+        LEFT JOIN cusin_info AS ci ON mi.cusin_ref_id=ci.id
+        <where>
+            mi.status=1
+            AND mc.status=1
+            <if test="id!=null">
+                AND mi.id=#{id,jdbcType=INTEGER}
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>

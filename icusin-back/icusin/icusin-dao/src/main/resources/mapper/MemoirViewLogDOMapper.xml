@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icusin.dao.mapper.MemoirViewLogDOMapper">
+  <resultMap id="BaseResultMap" type="com.icusin.dao.entity.MemoirViewLogDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_ref_id" jdbcType="INTEGER" property="userRefId" />
+    <result column="memoir_ref_id" jdbcType="INTEGER" property="memoirRefId" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_ref_id, memoir_ref_id, gmt_modified, gmt_create, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from memoir_view_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.icusin.dao.entity.MemoirViewLogDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into memoir_view_log (user_ref_id, memoir_ref_id, gmt_modified, 
+      gmt_create, status)
+    values (#{userRefId,jdbcType=INTEGER}, #{memoirRefId,jdbcType=INTEGER}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.icusin.dao.entity.MemoirViewLogDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into memoir_view_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userRefId != null">
+        user_ref_id,
+      </if>
+      <if test="memoirRefId != null">
+        memoir_ref_id,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userRefId != null">
+        #{userRefId,jdbcType=INTEGER},
+      </if>
+      <if test="memoirRefId != null">
+        #{memoirRefId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.icusin.dao.entity.MemoirViewLogDO">
+    update memoir_view_log
+    <set>
+      <if test="userRefId != null">
+        user_ref_id = #{userRefId,jdbcType=INTEGER},
+      </if>
+      <if test="memoirRefId != null">
+        memoir_ref_id = #{memoirRefId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.icusin.dao.entity.MemoirViewLogDO">
+    update memoir_view_log
+    set user_ref_id = #{userRefId,jdbcType=INTEGER},
+      memoir_ref_id = #{memoirRefId,jdbcType=INTEGER},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

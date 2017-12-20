@@ -1,0 +1,1 @@
+INSERT INTO icusin.memoir_info (cusin_ref_id, memoir_title, memoir_digest, catg_ref_id, content_ref_id, gmt_create, gmt_modified, status) VALUES (1, '我的婆婆', '对我婆婆最初的影响估计就是晓得时候跟婆婆一起睡，婆婆老是看我有没有盖着铺盖。那个时候自己很想打铺盖，只要有婆婆再肯定没办法。。。', 0, 1, '2017-09-23 22:20:24', '2017-09-23 22:20:24', 1);

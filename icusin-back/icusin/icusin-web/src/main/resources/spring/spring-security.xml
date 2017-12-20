@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- 打印调试信息，仅在开发环境中使用 -->
+    <debug/>
+
+    <!-- 忽略所有的静态资源 -->
+    <http pattern="/assets/**" security="none"/>
+    <http pattern="/resources/**" security="none"/>
+
+    <!-- 最简单的配置 -->
+    <http>
+        <!-- 拦截 -->
+        <intercept-url pattern="/" access="permitAll()"/>
+        <intercept-url pattern="/index" access="permitAll()"/>
+        <intercept-url pattern="/login" access="isAnonymous()"/>
+        <intercept-url pattern="/error" access="permitAll()"/>
+        <intercept-url pattern="/user/register" access="isAnonymous()"/>
+        <intercept-url pattern="/user/activate/*" access="isAnonymous()"/>
+
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" requires-channel="any"/>
+
+        <!-- 登录 -->
+        <form-login login-page="/login" default-target-url="/user/profile"
+                    username-parameter="username" password-parameter="password"
+                    login-processing-url="/login"/>
+
+        <!-- 退出登录(退出删除session cookie防止下次登录失败) -->
+        <logout delete-cookies="JSESSIONID"/>
+
+        <!-- 记住我　-->
+        <remember-me key="_rem" remember-me-parameter="remember" remember-me-cookie="_rem"/>
+
+        <!-- 跨域csrf -->
+        <csrf disabled="true"/>
+
+        <!-- 访问端口 -->
+        <port-mappings>
+            <!-- 默认端口 -->
+            <port-mapping http="8080" https="443"/>
+        </port-mappings>
+
+        <!-- session管理 -->
+        <session-management invalid-session-url="/logout">
+
+            <!-- 最大登录用户数目1,单点登陆-->
+            <!--<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>-->
+        </session-management>
+    </http>
+
+    <!-- 自定义认证管理 -->
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService">
+
+            <!-- 加密bean -->
+            <password-encoder ref="bcryptEncoder"/>
+
+            <!--&lt;!&ndash; 配置测试用的登录用户名和密码 &ndash;&gt;-->
+            <!--<user-service>-->
+            <!--<user name="brainysoon" password="$2a$10$tijvtaKgDF2/0f4mjd8gPekxjAyVwV7dXikmCerWh7.rnDj3g1v.i"-->
+            <!--authorities="ROLE_USER"/>-->
+            <!--</user-service>-->
+        </authentication-provider>
+    </authentication-manager>
+
+    <!-- 自定义加载用户信息 -->
+    <beans:bean id="userDetailsService"
+                class="com.icusin.service.security.MyUserDetailsServiceImpl">
+    </beans:bean>
+
+    <!-- 配置密码加密bean-->
+    <beans:bean name="bcryptEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <!-- 开启全局注解@secured 和 切入点保护 -->
+    <global-method-security secured-annotations="enabled">
+        <protect-pointcut expression="execution(* com.icusin.*Service.*(..))"
+                          access="ROLE_USER"/>
+    </global-method-security>
+
+    <!-- 错误信息本地化 -->
+    <beans:bean id="messageSource"
+                class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <beans:property name="basename" value="classpath:local/messages_zh_CN"/>
+    </beans:bean>
+
+</beans:beans>
