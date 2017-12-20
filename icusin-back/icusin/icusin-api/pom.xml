@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- 定义父模块版本 -->
     <parent>
-    <artifactId>icusin</artifactId>
-    <groupId>com.icusin</groupId>
-    <version>0.1-SNAPSHOT</version>
-  </parent>
+        <groupId>com.icusin</groupId>
+        <artifactId>icusin</artifactId>
+        <version>0.1.1</version>
+    </parent>
+
     <!-- archetype-api项目坐标 -->
-    <groupId>com.icusin</groupId>
     <artifactId>icusin-api</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <packaging>jar</packaging>
 
     <!-- 自定义属性 -->
@@ -59,12 +62,6 @@
 
     <!-- 依赖管理 -->
     <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <!-- 用于上传远程maven私服的配置 -->

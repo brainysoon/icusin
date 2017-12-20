@@ -2,15 +2,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <!-- 定义父模块坐标 -->
     <groupId>com.icusin</groupId>
     <artifactId>icusin</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <packaging>pom</packaging>
     <name>icusin</name>
-    <description>骨架工程</description>
+    <description>表亲网</description>
 
     <!-- 定义子模块 -->
+    <modules>
+        <module>icusin-dao</module>
+        <module>icusin-manager</module>
+        <module>icusin-service</module>
+        <module>icusin-web</module>
+        <module>icusin-common</module>
+        <module>icusin-domain</module>
+        <module>icusin-api</module>
+    </modules>
 
     <!-- 自定义maven属性
          ${user.home}      是maven定义的系统属性
@@ -20,7 +30,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-        <!-- 定义项目版本号 -->
+
+        <!-- 依赖版本仲裁 （所有的依赖在此仲裁） -->
+        <icusin.version>0.1.1</icusin.version>
+        <icusin-dao.version>0.1.1</icusin-dao.version>
+        <icusin-manager.version>0.1.1</icusin-manager.version>
+        <icusin-api.version>0.1.1</icusin-api.version>
+        <icusin-web.version>0.1.1</icusin-web.version>
+        <icusin-common.version>0.1.1</icusin-common.version>
+        <icusin-service.version>0.1.1</icusin-service.version>
+
         <junit.version>4.12</junit.version>
         <mockito.version>2.2.22</mockito.version>
         <slf4j.version>1.7.12</slf4j.version>
@@ -102,6 +121,7 @@
             <version>${springframework.version}</version>
             <scope>test</scope>
         </dependency>
+
         <!-- 消除冗长的Java代码 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -111,34 +131,34 @@
         </dependency>
     </dependencies>
 
-    <!-- 依赖管理：统一版本 -->
+    <!-- 依赖管理：所有的版本仲裁 -->
     <dependencyManagement>
         <dependencies>
-            <!-- 项目自身的依赖 -->
+            <!-- 项目自身的依赖冲裁 -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>icusin-dao</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>${icusin-dao.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>icusin-manager</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>${icusin-manager.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>icusin-service</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>${icusin-service.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>icusin-web</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>${icusin-web.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>icusin-common</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>${icusin-common.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
@@ -148,7 +168,7 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>icusin-api</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>${icusin-api.version}</version>
             </dependency>
 
             <!-- Spring依赖 -->
@@ -438,13 +458,4 @@
             </plugin>
         </plugins>
     </build>
-    <modules>
-        <module>icusin-dao</module>
-        <module>icusin-manager</module>
-        <module>icusin-service</module>
-        <module>icusin-web</module>
-        <module>icusin-common</module>
-        <module>icusin-domain</module>
-        <module>icusin-api</module>
-    </modules>
 </project>
